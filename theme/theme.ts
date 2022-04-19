@@ -2,7 +2,7 @@ import { extendTheme, Theme, withDefaultColorScheme } from "@chakra-ui/react";
 import blueHue from "./colors/blue";
 import greenHue from "./colors/green";
 import redHue from "./colors/red";
-import yellowHue from "./colors/yellow";
+import orangeHue from "./colors/orange";
 import componentStyles from "./components";
 
 const theme = extendTheme(
@@ -11,7 +11,7 @@ const theme = extendTheme(
             green: greenHue,
             blue: blueHue,
             red: redHue,
-            yellow: yellowHue
+            orange: orangeHue
         },
         fonts: {
             body: "'Noto Sans', sans-serif",

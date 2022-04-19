@@ -1,7 +1,7 @@
 import { ColorHues } from "@chakra-ui/react";
 import { generateColorHues } from "./generator";
 
-const yellowHue: ColorHues = generateColorHues([
+const orangeHue: ColorHues = generateColorHues([
     "#f8d4a0", // 50
     "#f7cd90", // 100
     "#f6c680", // 200
@@ -14,4 +14,4 @@ const yellowHue: ColorHues = generateColorHues([
     "#7a5c30"  // 900
 ]);
 
-export default yellowHue;
+export default orangeHue;
