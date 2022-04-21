@@ -90,7 +90,7 @@ export const useNavbarVars = () => {
     /**
      * @dev Navbar background color, set according to color mode
      */
-    const navbarBackground = useColorModeValue("gray.50", "gray.700");
+    const navbarBackground = useColorModeValue("gray.50", "gray.800");
 
     return {
         ready,

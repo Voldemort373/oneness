@@ -5,7 +5,7 @@ import AppBar from '../components/organisms/appbar';
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "../store";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function OnenessApp({ Component, pageProps }: AppProps) {
   return (
     <ReduxProvider store={store}>
       <ChakraProvider theme={theme}>
@@ -16,4 +16,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default OnenessApp;

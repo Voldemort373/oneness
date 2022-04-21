@@ -20,6 +20,10 @@ const theme = extendTheme(
         },
         components: {
             Button: componentStyles.buttonStyle
+        },
+        config: {
+            initialColorMode: "light",
+            useSystemColorMode: false
         }
     },
     withDefaultColorScheme({ colorScheme: "green" })

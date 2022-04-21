@@ -1,8 +1,10 @@
-import { Box, Heading, Show, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Box, Button, Heading, IconButton, Show, Text, Theme, useTheme, useColorMode } from "@chakra-ui/react";
 import Link from "next/link";
 import { useNavbar } from "../../../hooks/useNavbar";
 import { useNavbarVars } from "./useNavbarVars";
+import AppIcon from "../../../icons/AppIcon";
+import DayIcon from "../../../icons/DayIcon";
+import NightIcon from "../../../icons/NightIcon";
 
 export default function AppBar() {
 
@@ -14,12 +16,17 @@ export default function AppBar() {
     /**
      * @dev Navbar state hook
      */
-    const { navbarState, setNavbarProgress } = useNavbar();
-    useEffect(() => {
-        setTimeout(() => {
-            setNavbarProgress(true);
-        }, 3000);
-    }, [setNavbarProgress])
+    const { navbarState } = useNavbar();
+
+    /**
+     * @dev To get current theme
+     */
+    const { colorMode, toggleColorMode } = useColorMode();
+
+    /**
+     * @dev Chakra theme
+     */
+    const theme: Theme = useTheme();
 
     return !ready ? <></> : (
         <>
@@ -36,14 +43,28 @@ export default function AppBar() {
                     }
 
                     {/* Navbar content */}
-                    <Box id="navbar-widescreen" as="nav" width="full" minHeight="14" zIndex="1" backgroundColor={navbarBackground} padding="4">
+                    <Box id="navbar-widescreen" as="nav" width="full" minHeight="14" zIndex="1" backgroundColor={navbarBackground} padding="4" display="flex" justifyContent="space-between">
                         {/* Title */}
                         <Link passHref href="/"><a>
-                            <Heading fontSize="3xl">
+                            <Heading fontSize="3xl" width="fit-content">
                                 <Text as="span" ref={(el) => { singleColorFadeAnim(el, "color"); }} fontSize="4xl">O</Text>
                                 <Text as="span">neness</Text>
                             </Heading>
                         </a></Link>
+
+                        {/* Nav content */}
+                        <Box display="flex" justifyContent="end" alignItems="center" gap="12">
+                            {/* App */}
+                            <Link passHref href="/app"><a>
+                                <Button display="flex" alignItems="center" variant="unstyled" leftIcon={<AppIcon height="24" width="24" />}>App</Button>
+                            </a></Link>
+
+                            {/* LogIn */}
+
+
+                            {/* Theme changer */}
+                            <IconButton variant="unstyled" aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} theme`} icon={colorMode === "light" ? <DayIcon height="2rem" width="2rem" /> : <NightIcon height="2rem" width="2rem" fill={theme.colors.blue[50]} />} onClick={toggleColorMode} display="flex" justifyContent="center" alignItems="center" />
+                        </Box>
                     </Box>
                 </Box>
             </Show>
