@@ -5,9 +5,6 @@ const SvgOtherWalletIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 291.765 291.765"
-    style={{
-      enableBackground: "new 0 0 291.765 291.765",
-    }}
     xmlSpace="preserve"
     {...props}
   >
