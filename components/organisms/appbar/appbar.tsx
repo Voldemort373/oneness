@@ -5,6 +5,10 @@ import { useNavbarVars } from "./useNavbarVars";
 import AppIcon from "../../../icons/AppIcon";
 import DayIcon from "../../../icons/DayIcon";
 import NightIcon from "../../../icons/NightIcon";
+import ConnectIcon from "../../../icons/ConnectIcon";
+import useConnection from "../../../hooks/useConnection";
+import React from "react";
+import { NavbarGradientShadowNoProgress, NavbarGradientShadowProgress } from "./shadowGradientProgress";
 
 export default function AppBar() {
 
@@ -28,6 +32,11 @@ export default function AppBar() {
      */
     const theme: Theme = useTheme();
 
+    /**
+     * @dev For connection
+     */
+    const { disconnect, isConnecting, isConnected, showConnectDialog } = useConnection();
+
     return !ready ? <></> : (
         <>
             {/* For widescreen, lg and above */}
@@ -38,32 +47,30 @@ export default function AppBar() {
                      * When there's progress, it'll have all 4 colors running in relay
                      */
                         navbarState.progress ?
-                            <Box id="navbar-widescreen-progress-gradient" height="full" width="full" position="absolute" top="-8px" left="0" zIndex="-1" filter="blur(16px)" background={navbarBackground} ref={progressColorsGradientAnim} /> :
-                            <Box id="navbar-widescreen-shadow" height="full" width="full" position="absolute" top="-10px" left="0" zIndex="-1" filter="blur(16px)" ref={(el) => { singleColorFadeAnim(el, "backgroundColor"); }} backgroundColor={colors[3]} />
+                            <NavbarGradientShadowProgress navbarBackground={navbarBackground} progressColorsGradientAnim={progressColorsGradientAnim} /> :
+                            <NavbarGradientShadowNoProgress colors={colors} singleColorFadeAnim={singleColorFadeAnim} />
                     }
 
+
                     {/* Navbar content */}
-                    <Box id="navbar-widescreen" as="nav" width="full" minHeight="14" zIndex="1" backgroundColor={navbarBackground} padding="4" display="flex" justifyContent="space-between">
+                    <Box id="navbar-widescreen" as="nav" width="full" minHeight="14" zIndex="1" backgroundColor={navbarBackground} paddingX="8" paddingY="4" display="flex" justifyContent="space-between">
                         {/* Title */}
-                        <Link passHref href="/"><a>
-                            <Heading fontSize="3xl" width="fit-content">
-                                <Text as="span" ref={(el) => { singleColorFadeAnim(el, "color"); }} fontSize="4xl">O</Text>
-                                <Text as="span">neness</Text>
-                            </Heading>
-                        </a></Link>
+                        <AppLogo singleColorFadeAnim={singleColorFadeAnim} />
 
                         {/* Nav content */}
-                        <Box display="flex" justifyContent="end" alignItems="center" gap="12">
+                        <Box display="flex" justifyContent="end" alignItems="center" gap="10">
                             {/* App */}
                             <Link passHref href="/app"><a>
                                 <Button display="flex" alignItems="center" variant="unstyled" leftIcon={<AppIcon height="24" width="24" />}>App</Button>
                             </a></Link>
 
-                            {/* LogIn */}
-
+                            {/* Connect */}
+                            <Button display="flex" alignItems="center" variant="unstyled" leftIcon={<ConnectIcon height="24" width="24" />} onClick={isConnected ? disconnect : showConnectDialog} isLoading={isConnecting} loadingText="Connecting">
+                                {isConnected ? "Disconnect" : "Connect"}
+                            </Button>
 
                             {/* Theme changer */}
-                            <IconButton variant="unstyled" aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} theme`} icon={colorMode === "light" ? <DayIcon height="2rem" width="2rem" /> : <NightIcon height="2rem" width="2rem" fill={theme.colors.blue[50]} />} onClick={toggleColorMode} display="flex" justifyContent="center" alignItems="center" />
+                            <IconButton variant="unstyled" aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} theme`} icon={colorMode === "light" ? <DayIcon height="1.75rem" width="1.75rem" /> : <NightIcon height="1.75rem" width="1.75rem" fill={theme.colors.blue[50]} />} onClick={toggleColorMode} display="flex" justifyContent="center" alignItems="center" />
                         </Box>
                     </Box>
                 </Box>
@@ -76,3 +83,21 @@ export default function AppBar() {
         </>
     )
 }
+
+
+/**
+ * @description Logo component
+ * @dev Memoized, to prevent multiple gsap animation instantiations
+ */
+const AppLogoUnmemo = ({ singleColorFadeAnim }: IAppLogo) => (
+    <Link passHref href="/"><a>
+        <Heading fontSize="3xl" width="fit-content">
+            <Text as="span" ref={(el) => { singleColorFadeAnim(el, "color"); }} fontSize="4xl">O</Text>
+            <Text as="span">neness</Text>
+        </Heading>
+    </a></Link>
+)
+interface IAppLogo {
+    singleColorFadeAnim: (el: HTMLDivElement | HTMLParagraphElement | null, whatToAnimate: string) => void;
+}
+const AppLogo = React.memo(AppLogoUnmemo);

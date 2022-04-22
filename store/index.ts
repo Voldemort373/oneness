@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { connectionReducer } from "./reducers/connection";
 import { navbarReducer } from "./reducers/navbar";
 
 /**
@@ -6,8 +7,15 @@ import { navbarReducer } from "./reducers/navbar";
  */
 export const store = configureStore({
     reducer: {
-        navbar: navbarReducer
-    }
+        navbar: navbarReducer,
+        connection: connectionReducer
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredPaths: ["connection.selfId"],
+            ignoredActions: ["connection/setSelfId"]
+        }
+    })
 });
 
 /**

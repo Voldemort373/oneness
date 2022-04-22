@@ -18,9 +18,9 @@ export const useToast = () => {
             description,
             duration: durationInSecs * 1000,
             status,
-            position: "top",
+            position: "bottom-right",
             id,
-            variant: "subtle"
+            variant: "solid"
         })
     }, [toast]);
 

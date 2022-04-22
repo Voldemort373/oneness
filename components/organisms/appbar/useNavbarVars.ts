@@ -22,12 +22,6 @@ export const useNavbarVars = () => {
         theme.colors.red[400],
         theme.colors.green[400]
     ]), [theme]);
-    const colorsDesat = useMemo(() => ([
-        theme.colors.blue[200],
-        theme.colors.yellow[200],
-        theme.colors.red[200],
-        theme.colors.green[200]
-    ]), [theme]);
 
     /**
      * @dev Takes care of alternating single color
@@ -56,34 +50,36 @@ export const useNavbarVars = () => {
      * @dev For navbar progress gradient
      */
     const progressColorsGradientAnim = useCallback((el: HTMLDivElement | null) => {
-        const timeline = gsap.timeline({
-            repeat: Infinity
-        });
-
-        const commonOptions: gsap.TweenVars = {
-            duration: 0.4,
-            ease: "none"
-        }
-
-        const colorsNum = colors.length;
-
-        const getColorByIndex = (index: number) => (colors[index % colorsNum]);
-        const getPrevIndex = (index: number) => ((index + colorsNum - 1) % colorsNum);
-
-        for (let i = colorsNum - 1; i >= 0; i--) {
-            const individualColorTimeline = gsap.timeline();
-            const fromGradient = `linear-gradient(90deg, ${getColorByIndex(i)}, ${getColorByIndex(i + 1)}, ${getColorByIndex(i + 2)}, ${getColorByIndex(i + 3)}`;
-            const toGradient = `linear-gradient(90deg, ${getColorByIndex(getPrevIndex(i))}, ${getColorByIndex(getPrevIndex(i + 1))}, ${getColorByIndex(getPrevIndex(i + 2))}, ${getColorByIndex(getPrevIndex(i + 3))}`;
-
-            individualColorTimeline.fromTo(el, {
-                ...commonOptions,
-                background: fromGradient
-            }, {
-                ...commonOptions,
-                background: toGradient
+        if (!!el) {
+            const timeline = gsap.timeline({
+                repeat: Infinity
             });
 
-            timeline.add(individualColorTimeline, ">");
+            const commonOptions: gsap.TweenVars = {
+                duration: 0.4,
+                ease: "none"
+            }
+
+            const colorsNum = colors.length;
+
+            const getColorByIndex = (index: number) => (colors[index % colorsNum]);
+            const getPrevIndex = (index: number) => ((index + colorsNum - 1) % colorsNum);
+
+            for (let i = colorsNum - 1; i >= 0; i--) {
+                const individualColorTimeline = gsap.timeline();
+                const fromGradient = `linear-gradient(90deg, ${getColorByIndex(i)}, ${getColorByIndex(i + 1)}, ${getColorByIndex(i + 2)}, ${getColorByIndex(i + 3)}`;
+                const toGradient = `linear-gradient(90deg, ${getColorByIndex(getPrevIndex(i))}, ${getColorByIndex(getPrevIndex(i + 1))}, ${getColorByIndex(getPrevIndex(i + 2))}, ${getColorByIndex(getPrevIndex(i + 3))}`;
+
+                individualColorTimeline.fromTo(el, {
+                    ...commonOptions,
+                    background: fromGradient
+                }, {
+                    ...commonOptions,
+                    background: toGradient
+                });
+
+                timeline.add(individualColorTimeline, ">");
+            }
         }
     }, [colors]);
 
