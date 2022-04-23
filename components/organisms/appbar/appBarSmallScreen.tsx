@@ -60,7 +60,7 @@ const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps
     return (
         <>
             {/* Top navbar */}
-            <Box id="navbar-widescreen-container-sm-top" width="full" position="fixed" top="0" left="0" zIndex="999" display="flex" alignItems="center" paddingY="2" paddingX="4" backgroundColor={navbarBackground}>
+            <Box id="navbar-widescreen-container-sm-top" width="full" position="fixed" top="0" left="0" zIndex="999" display="flex" alignItems="center" paddingY="2" paddingX="4" backgroundColor={navbarBackground} as="nav">
 
                 {/* AppTitle */}
                 <Link passHref href="/"><a>
@@ -68,7 +68,7 @@ const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps
                 </a></Link>
 
                 {/* Contextual element */}
-                <Box flexBasis={0} flexGrow={1} height="full">
+                <Box flexBasis={0} flexGrow={1} height="full" paddingX="4">
                     {!!ContextualComponent && <ContextualComponent {...contextualComponentProps} />}
                 </Box>
 
@@ -102,7 +102,7 @@ const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps
             </Box>
 
             {/* Bottom navbar */}
-            <Box id="navbar-widescreen-container-sm-bottom" width="full" position="fixed" bottom="0" left="0" zIndex="999">
+            <Box id="navbar-widescreen-container-sm-bottom" width="full" position="fixed" bottom="0" left="0" zIndex="999" as="nav">
 
                 {/* Navbar content */}
                 <Box id="navbar-sm-bottom" as="nav" width="full" minHeight="10" zIndex="1" backgroundColor={navbarBackground} paddingY="2" paddingX="4" display="flex" justifyContent={{ base: "space-between", sm: "space-around" }}>
