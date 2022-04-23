@@ -1,103 +1,52 @@
-import { Box, Button, Heading, IconButton, Show, Text, Theme, useTheme, useColorMode } from "@chakra-ui/react";
-import Link from "next/link";
-import { useNavbar } from "../../../hooks/useNavbar";
-import { useNavbarVars } from "./useNavbarVars";
-import AppIcon from "../../../icons/AppIcon";
-import DayIcon from "../../../icons/DayIcon";
-import NightIcon from "../../../icons/NightIcon";
-import ConnectIcon from "../../../icons/ConnectIcon";
-import useConnection from "../../../hooks/useConnection";
-import React from "react";
-import { NavbarGradientShadowNoProgress, NavbarGradientShadowProgress } from "./shadowGradientProgress";
+import { Hide, Show } from "@chakra-ui/react";
+import { FunctionComponent, useEffect, useState } from "react";
+import { AppBarWidescreen } from "./appBarWidescreen";
+import { AppBarSmallScreen } from "./appBarSmallScreen";
 
-export default function AppBar() {
+/**
+ * @dev Interface for AppBar
+ */
+interface AppBar {
+    ContextualComponent?: FunctionComponent;
+    contextualComponentProps?: { [propName: string]: any };
+    shouldShowOnWideScreens?: boolean;
+    shouldShowOnSmallScreens?: boolean;
+}
 
-    /**
-     * @dev States and effects are placed in a separate, local-only hook
-     */
-    const { navbarBackground, ready, singleColorFadeAnim, colors, progressColorsGradientAnim } = useNavbarVars();
-
-    /**
-     * @dev Navbar state hook
-     */
-    const { navbarState } = useNavbar();
-
-    /**
-     * @dev To get current theme
-     */
-    const { colorMode, toggleColorMode } = useColorMode();
+/**
+ * @summary AppBar component for use in all pages, **INDIVIDUALLY**.
+ * @dev Use in each page that you need AppBars, and pass appropriate props for versatility.
+ * @param shouldShowOnSmallScreens If navbar should show up on smaller screens; *default: `true`*.
+ * @param shouldShowOnWideScreens If navbar should show up on wider screens; *default: `true`*.
+ * @param ContextualComponent Contextual component to show for the page *(OPTIONAL)*
+ * @param contextualComponentProps Props for the Contextual component *(OPTIONAL)*
+ * @returns AppBar component with everything working on its own
+ */
+export default function AppBar({ shouldShowOnSmallScreens = true, shouldShowOnWideScreens = true, ContextualComponent, contextualComponentProps }: AppBar) {
 
     /**
-     * @dev Chakra theme
+     * @dev This state is needed to decide when to render the AppBar, since we use 'Show' component
      */
-    const theme: Theme = useTheme();
+    const [firstLoadDone, setFirstLoadDone] = useState<boolean>(false);
+    useEffect(() => {
+        setFirstLoadDone(true);
+    }, []);
 
-    /**
-     * @dev For connection
-     */
-    const { disconnect, isConnecting, isConnected, showConnectDialog } = useConnection();
-
-    return !ready ? <></> : (
+    return !firstLoadDone ? <></> : (
         <>
             {/* For widescreen, lg and above */}
-            <Show above="lg">
-                <Box id="navbar-widescreen-container" width="full" position="fixed" top="0" left="0" zIndex="999">
-                    {/**
-                     * Navbar will have shadow (single color transition) when there's no progress.
-                     * When there's progress, it'll have all 4 colors running in relay
-                     */
-                        navbarState.progress ?
-                            <NavbarGradientShadowProgress navbarBackground={navbarBackground} progressColorsGradientAnim={progressColorsGradientAnim} /> :
-                            <NavbarGradientShadowNoProgress colors={colors} singleColorFadeAnim={singleColorFadeAnim} />
-                    }
-
-
-                    {/* Navbar content */}
-                    <Box id="navbar-widescreen" as="nav" width="full" minHeight="14" zIndex="1" backgroundColor={navbarBackground} paddingX="8" paddingY="4" display="flex" justifyContent="space-between">
-                        {/* Title */}
-                        <AppLogo singleColorFadeAnim={singleColorFadeAnim} />
-
-                        {/* Nav content */}
-                        <Box display="flex" justifyContent="end" alignItems="center" gap="10">
-                            {/* App */}
-                            <Link passHref href="/app"><a>
-                                <Button display="flex" alignItems="center" variant="unstyled" leftIcon={<AppIcon height="24" width="24" />}>App</Button>
-                            </a></Link>
-
-                            {/* Connect */}
-                            <Button display="flex" alignItems="center" variant="unstyled" leftIcon={<ConnectIcon height="24" width="24" />} onClick={isConnected ? disconnect : showConnectDialog} isLoading={isConnecting} loadingText="Connecting">
-                                {isConnected ? "Disconnect" : "Connect"}
-                            </Button>
-
-                            {/* Theme changer */}
-                            <IconButton variant="unstyled" aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} theme`} icon={colorMode === "light" ? <DayIcon height="1.75rem" width="1.75rem" /> : <NightIcon height="1.75rem" width="1.75rem" fill={theme.colors.blue[50]} />} onClick={toggleColorMode} display="flex" justifyContent="center" alignItems="center" />
-                        </Box>
-                    </Box>
-                </Box>
-            </Show>
+            {shouldShowOnWideScreens &&
+                <Show above="md">
+                    <AppBarWidescreen />
+                </Show>
+            }
 
             {/* For smaller screens, md and below */}
-            <Show below="sm">
-
-            </Show>
+            {shouldShowOnSmallScreens &&
+                <Hide above="md">
+                    <AppBarSmallScreen ContextualComponent={ContextualComponent} contextualComponentProps={contextualComponentProps} />
+                </Hide>
+            }
         </>
     )
 }
-
-
-/**
- * @description Logo component
- * @dev Memoized, to prevent multiple gsap animation instantiations
- */
-const AppLogoUnmemo = ({ singleColorFadeAnim }: IAppLogo) => (
-    <Link passHref href="/"><a>
-        <Heading fontSize="3xl" width="fit-content">
-            <Text as="span" ref={(el) => { singleColorFadeAnim(el, "color"); }} fontSize="4xl">O</Text>
-            <Text as="span">neness</Text>
-        </Heading>
-    </a></Link>
-)
-interface IAppLogo {
-    singleColorFadeAnim: (el: HTMLDivElement | HTMLParagraphElement | null, whatToAnimate: string) => void;
-}
-const AppLogo = React.memo(AppLogoUnmemo);

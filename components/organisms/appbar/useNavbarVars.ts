@@ -1,15 +1,8 @@
 import { Theme, useColorModeValue, useTheme } from "@chakra-ui/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import gsap from "gsap";
 
 export const useNavbarVars = () => {
-    /**
-     * @dev This state is needed to decide when to render the AppBar, since we use 'Show' component
-     */
-    const [ready, setReady] = useState<boolean>(false);
-    useEffect(() => {
-        setReady(true);
-    }, []);
 
     const theme: Theme = useTheme();
 
@@ -84,15 +77,32 @@ export const useNavbarVars = () => {
     }, [colors]);
 
     /**
+     * @dev Animation for full horizontal movement
+     */
+    const horizontalFullAnim = useCallback((el: HTMLDivElement | null) => {
+        if (!!el) {
+            gsap.fromTo(el, {
+                transform: "translateX(-100%)"
+            }, {
+                transform: "translateX(100vw)",
+                duration: 1,
+                repeat: Infinity,
+                repeatDelay: 1,
+                ease: "power2.inOut"
+            });
+        }
+    }, []);
+
+    /**
      * @dev Navbar background color, set according to color mode
      */
     const navbarBackground = useColorModeValue("gray.50", "gray.800");
 
     return {
-        ready,
         singleColorFadeAnim,
         navbarBackground,
         colors,
-        progressColorsGradientAnim
+        progressColorsGradientAnim,
+        horizontalFullAnim
     }
 }

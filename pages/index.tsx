@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import AppBar from "../components/organisms/appbar";
 
 const HomePage: NextPage = () => {
   return (
@@ -10,7 +11,11 @@ const HomePage: NextPage = () => {
       </Head>
 
       {/* UI */}
-      
+      <>
+        {/* AppBar */}
+        <AppBar shouldShowOnSmallScreens={true} shouldShowOnWideScreens={true} />
+      </>
+
     </>
   )
 }

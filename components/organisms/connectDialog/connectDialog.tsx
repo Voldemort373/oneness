@@ -21,25 +21,25 @@ export default function ConnectDialog() {
                         {/* Metamask */}
                         <GridItem width="full" padding="4" display="flex" flexDirection="column" justifyContent="center" alignItems="center" role="button" onClick={() => { connect("metamask"); }}>
                             <MetamaskIcon height="48" width="48" />
-                            <Text marginTop="4">Metamask</Text>
+                            <Text marginTop="4" textAlign="center">Metamask</Text>
                         </GridItem>
 
                         {/* WalletConnect */}
                         <GridItem width="full" padding="4" display="flex" flexDirection="column" justifyContent="center" alignItems="center" role="button" onClick={() => { connect("wallet-connect"); }}>
                             <WalletConnectIcon height="48" width="48" />
-                            <Text marginTop="4">WalletConnect</Text>
+                            <Text marginTop="4" textAlign="center">WalletConnect</Text>
                         </GridItem>
 
                         {/* WalletLink */}
                         <GridItem width="full" padding="4" display="flex" flexDirection="column" justifyContent="center" alignItems="center" role="button" onClick={() => { connect("wallet-link"); }}>
                             <WalletLinkIcon height="48" width="48" />
-                            <Text marginTop="4">Coinbase</Text>
+                            <Text marginTop="4" textAlign="center">Coinbase</Text>
                         </GridItem>
 
                         {/* Others */}
                         <GridItem width="full" padding="4" display="flex" flexDirection="column" justifyContent="center" alignItems="center" role="button" onClick={() => { connect("injected"); }}>
                             <OtherWalletIcon height="48" width="48" />
-                            <Text marginTop="4">Others (injected)</Text>
+                            <Text marginTop="4" textAlign="center">Others (injected)</Text>
                         </GridItem>
                     </Grid>
                 </ModalBody>

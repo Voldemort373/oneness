@@ -123,7 +123,8 @@ export const useConnection = () => {
         deactivate();
         selfIdDisconnect();
         setWalletPreConnected("");
-    }, [deactivate, setShowConnectionDialog, selfIdDisconnect, setWalletPreConnected]);
+        connector?.deactivate();
+    }, [deactivate, setShowConnectionDialog, selfIdDisconnect, setWalletPreConnected, connector]);
 
     return {
         connect,
