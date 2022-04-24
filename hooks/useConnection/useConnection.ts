@@ -13,12 +13,10 @@ import { ethers } from "ethers";
 import { useViewerConnection, EthereumAuthProvider, SelfID } from "@self.id/framework";
 import { useNavbar } from "../useNavbar";
 
-const WALLET_PRE_CONNECTED_LOCAL_STORAGE_KEY = "oneness-app-wallet-pre-connected";
-
 export const useConnection = () => {
     const dispatch: AppDispatch = useDispatch();
     const { activate, active, deactivate, account, chainId, connector, library } = useWeb3React();
-    const { showToast } = useToast();
+    const { showSimpleToast } = useToast();
     const [isConnecting, setIsConnecting] = [
         useSelector((state: RootState) => (state.connection.isConnecting)),
         (isConnecting: boolean) => { dispatch(connectionActionGenerators.setIsConnecting(isConnecting)) }
@@ -101,19 +99,23 @@ export const useConnection = () => {
             }
 
             // Show success toast at the end
-            showToast(
-                "success",
-                "CONNECTED",
-                "You are now connected to Oneness!"
-            );
+            showSimpleToast({
+                text: "Connected to Oneness",
+                toastId: "connected-to-oneness",
+                type: "success"
+            });
         } catch (e: any) {
-            showToast("error", "ERROR", e?.message);
+            showSimpleToast({
+                text: e?.message || "Error",
+                toastId: "error-connected-to-oneness",
+                type: "error"
+            });
             setShowConnectionDialog(false);
         } finally {
             setIsConnecting(false);
             setNavbarProgress(false);
         }
-    }, [activate, setIsConnecting, showToast, setNavbarProgress, chains, setShowConnectionDialog, selfIdConnect, setSelfId, setWalletPreConnected]);
+    }, [activate, setIsConnecting, showSimpleToast, setNavbarProgress, chains, setShowConnectionDialog, selfIdConnect, setSelfId, setWalletPreConnected]);
 
     /**
      * @summary Disconnects from Oneness
@@ -123,8 +125,13 @@ export const useConnection = () => {
         deactivate();
         selfIdDisconnect();
         setWalletPreConnected("");
-        connector?.deactivate();
-    }, [deactivate, setShowConnectionDialog, selfIdDisconnect, setWalletPreConnected, connector]);
+        
+        showSimpleToast({
+            text: "Disconnected from Oneness",
+            toastId: "disconnected-to-oneness",
+            type: "warning"
+        });
+    }, [deactivate, setShowConnectionDialog, selfIdDisconnect, setWalletPreConnected, showSimpleToast]);
 
     return {
         connect,

@@ -8,6 +8,8 @@ import { providers as providersEthers } from "ethers";
 import { Provider as SelfIdProvider } from "@self.id/framework";
 import ConnectDialog from '../components/organisms/connectDialog';
 import { getValueBasedOnEnv } from '../utils/env';
+import { ToastContainer } from 'react-toastify';
+import "../styles/toast.css";
 
 /**
  * @summary Used by Web3-React's provider to initialise its provider
@@ -31,8 +33,16 @@ function OnenessApp({ Component, pageProps }: AppProps) {
           })
         }}>
           <ChakraProvider theme={theme}>
+
+            {/* Page component */}
             <Component {...pageProps} />
+
+            {/* Connect dialog - needs to be rendered only once */}
             <ConnectDialog />
+
+            {/* For toasts - needs to be rendered only once */}
+            <ToastContainer />
+
           </ChakraProvider>
         </SelfIdProvider>
       </Web3ReactProvider>

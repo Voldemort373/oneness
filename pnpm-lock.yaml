@@ -23,6 +23,7 @@ specifiers:
   react: 18.0.0
   react-dom: 18.0.0
   react-redux: ^8.0.0
+  react-toastify: ^8.2.0
   typescript: 4.6.3
 
 dependencies:
@@ -42,6 +43,7 @@ dependencies:
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
   react-redux: 8.0.0_4ba69c7787dfd9a3579e23e97d93e7b4
+  react-toastify: 8.2.0_react-dom@18.0.0+react@18.0.0
 
 devDependencies:
   '@types/node': 17.0.25
@@ -5175,6 +5177,17 @@ packages:
       invariant: 2.2.4
       react: 18.0.0
       tslib: 2.3.1
+    dev: false
+
+  /react-toastify/8.2.0_react-dom@18.0.0+react@18.0.0:
+    resolution: {integrity: sha512-Pg2Ju7NngAamarFvLwqrFomJ57u/Ay6i6zfLurt/qPynWkAkOthu6vxfqYpJCyNhHRhR4hu7+bySSeWWJu6PAg==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      clsx: 1.1.1
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
     dev: false
 
   /react/18.0.0:
