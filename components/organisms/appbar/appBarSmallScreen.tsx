@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { Box, IconButton, Theme, useTheme, useColorMode, Menu, MenuButton, MenuList, MenuItem, MenuOptionGroup } from "@chakra-ui/react";
 import Link from "next/link";
 import { useNavbarVars } from "./useNavbarVars";
@@ -35,8 +36,38 @@ const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps
     /**
      * @dev States and effects are placed in a separate, local-only hook
      */
-    const { navbarBackground, singleColorFadeAnim, horizontalFullAnim } = useNavbarVars();
+    const { navbarBackground } = useNavbarVars();
 
+    return (
+        <>
+            {/* Top navbar */}
+            <Box id="navbar-widescreen-container-sm-top" width="full" position="fixed" top="0" left="0" zIndex="999" display="flex" alignItems="center" paddingY="2" paddingX="4" backgroundColor={navbarBackground} as="nav">
+
+                {/* AppTitle */}
+                <AppBarSmallScreenTopAppLogo />
+
+                {/* Contextual element */}
+                <Box flexBasis={0} flexGrow={1} height="full" paddingX="4">
+                    {!!ContextualComponent && <ContextualComponent {...contextualComponentProps} />}
+                </Box>
+
+                {/* Menu */}
+                <AppBarSmallScreenTopMenu />
+            </Box>
+
+            {/* Bottom navbar */}
+            <AppBarSmallScreenBottomNavbar />
+        </>
+    )
+}
+
+const AppBarSmallScreenTopAppLogo = React.memo(() => (
+    <Link passHref href="/"><a>
+        <OpenessLogoActive height="2rem" width="2rem" />
+    </a></Link>
+));
+
+const AppBarSmallScreenTopMenu = React.memo(() => {
     /**
      * @dev To get current theme
      */
@@ -52,94 +83,86 @@ const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps
      */
     const { disconnect, isConnected, showConnectDialog } = useConnection();
 
+    return (
+        <Menu autoSelect={false} isLazy={true}>
+            <MenuButton as={IconButton} aria-label='Navigation menu' icon={<MenuIcon height="2rem" width="2rem" />} variant="unstyled" display="flex" justifyContent="center" alignContent="center" />
+            <MenuList>
+
+                {/* Option group for Connection */}
+                <MenuOptionGroup title="Wallet">
+                    {/* Connect/Disconnect */}
+                    <MenuItem icon={<ConnectIcon height="1.25rem" width="1.25rem" />} onClick={isConnected ? disconnect : showConnectDialog}>
+                        {isConnected ? "Disconnect" : "Connect"}
+                    </MenuItem>
+
+                    {/* Fund wallet */}
+                    <MenuItem icon={isConnected ? <FundWalletIconActive height="1.25rem" width="1.25rem" /> : <FundWalletIcon height="1.25rem" width="1.25rem" />} onClick={() => { alert("TODO: FUND BUNDLR"); }} isDisabled={!isConnected}>
+                        Fund Bundlr
+                    </MenuItem>
+                </MenuOptionGroup>
+
+                {/* Option group for Settings */}
+                <MenuOptionGroup title="Settings">
+                    {/* Theme changer */}
+                    <MenuItem icon={colorMode === "light" ? <DayIcon height="1.25rem" width="1.25rem" /> : <NightIcon height="1.25rem" width="1.25rem" fill={theme.colors.blue[50]} />} onClick={toggleColorMode} closeOnSelect={false}>
+                        Switch theme
+                    </MenuItem>
+                </MenuOptionGroup>
+            </MenuList>
+        </Menu>
+    )
+});
+
+const AppBarSmallScreenBottomNavbar = React.memo(() => {
+
+    /**
+     * @dev States and effects are placed in a separate, local-only hook
+     */
+    const { navbarBackground } = useNavbarVars();
+
     /**
     * @dev For getting current page
     */
     const router = useRouter();
 
     return (
-        <>
-            {/* Top navbar */}
-            <Box id="navbar-widescreen-container-sm-top" width="full" position="fixed" top="0" left="0" zIndex="999" display="flex" alignItems="center" paddingY="2" paddingX="4" backgroundColor={navbarBackground} as="nav">
+        <Box id="navbar-widescreen-container-sm-bottom" width="full" position="fixed" bottom="0" left="0" zIndex="999" as="nav">
 
-                {/* AppTitle */}
-                <Link passHref href="/"><a>
-                    <OpenessLogoActive height="2rem" width="2rem" />
+            {/* Navbar content */}
+            <Box id="navbar-sm-bottom" as="nav" width="full" minHeight="10" zIndex="1" backgroundColor={navbarBackground} paddingY="2" paddingX="4" display="flex" justifyContent={{ base: "space-between", sm: "space-around" }}>
+
+                {/* Profile */}
+                <Link passHref href="/app/profile"><a>
+                    <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/profile") ? <ProfileIconActive height="2rem" width="2rem" /> : <ProfileIcon height="2rem" width="2rem" />} aria-label="Profile" />
                 </a></Link>
 
-                {/* Contextual element */}
-                <Box flexBasis={0} flexGrow={1} height="full" paddingX="4">
-                    {!!ContextualComponent && <ContextualComponent {...contextualComponentProps} />}
-                </Box>
+                {/* Notifications */
+                    <Link passHref href="/app/notifications"><a>
+                        <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/notifications") ? <NotificationIconActive height="2rem" width="2rem" /> : <NotificationIcon height="2rem" width="2rem" />} aria-label="" />
+                    </a></Link>}
 
-                {/* Menu */}
-                <Menu autoSelect={false} isLazy={true}>
-                    <MenuButton as={IconButton} aria-label='Navigation menu' icon={<MenuIcon height="2rem" width="2rem" />} variant="unstyled" display="flex" justifyContent="center" alignContent="center" />
-                    <MenuList>
+                {/* Posts */}
+                <Link passHref href="/app/posts"><a>
+                    <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/posts") ? <OpenessLogoActive height="2rem" width="2rem" /> : <OpenessLogo height="2rem" width="2rem" />} aria-label="Posts" />
+                </a></Link>
 
-                        {/* Option group for Connection */}
-                        <MenuOptionGroup title="Wallet">
-                            {/* Connect/Disconnect */}
-                            <MenuItem icon={<ConnectIcon height="1.25rem" width="1.25rem" />} onClick={isConnected ? disconnect : showConnectDialog}>
-                                {isConnected ? "Disconnect" : "Connect"}
-                            </MenuItem>
+                {/* Explore */}
+                <Link passHref href="/app/explore"><a>
+                    <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/explore") ? <ExploreIconActive height="2rem" width="2rem" /> : <ExploreIcon height="2rem" width="2rem" />} aria-label="Explore" />
+                </a></Link>
 
-                            {/* Fund wallet */}
-                            <MenuItem icon={isConnected ? <FundWalletIconActive height="1.25rem" width="1.25rem" /> : <FundWalletIcon height="1.25rem" width="1.25rem" />} onClick={() => { alert("TODO: FUND BUNDLR"); }} isDisabled={!isConnected}>
-                                Fund Bundlr
-                            </MenuItem>
-                        </MenuOptionGroup>
-
-                        {/* Option group for Settings */}
-                        <MenuOptionGroup title="Settings">
-                            {/* Theme changer */}
-                            <MenuItem icon={colorMode === "light" ? <DayIcon height="1.25rem" width="1.25rem" /> : <NightIcon height="1.25rem" width="1.25rem" fill={theme.colors.blue[50]} />} onClick={toggleColorMode} closeOnSelect={false}>
-                                Switch theme
-                            </MenuItem>
-                        </MenuOptionGroup>
-                    </MenuList>
-                </Menu>
-            </Box>
-
-            {/* Bottom navbar */}
-            <Box id="navbar-widescreen-container-sm-bottom" width="full" position="fixed" bottom="0" left="0" zIndex="999" as="nav">
-
-                {/* Navbar content */}
-                <Box id="navbar-sm-bottom" as="nav" width="full" minHeight="10" zIndex="1" backgroundColor={navbarBackground} paddingY="2" paddingX="4" display="flex" justifyContent={{ base: "space-between", sm: "space-around" }}>
-
-                    {/* Profile */}
-                    <Link passHref href="/app/profile"><a>
-                        <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/profile") ? <ProfileIconActive height="2rem" width="2rem" /> : <ProfileIcon height="2rem" width="2rem" />} aria-label="Profile" />
-                    </a></Link>
-
-                    {/* Notifications */
-                        <Link passHref href="/app/notifications"><a>
-                            <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/notifications") ? <NotificationIconActive height="2rem" width="2rem" /> : <NotificationIcon height="2rem" width="2rem" />} aria-label="" />
-                        </a></Link>}
-
-                    {/* Posts */}
-                    <Link passHref href="/app/posts"><a>
-                        <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/posts") ? <OpenessLogoActive height="2rem" width="2rem" /> : <OpenessLogo height="2rem" width="2rem" />} aria-label="Posts" />
-                    </a></Link>
-
-                    {/* Explore */}
-                    <Link passHref href="/app/explore"><a>
-                        <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/explore") ? <ExploreIconActive height="2rem" width="2rem" /> : <ExploreIcon height="2rem" width="2rem" />} aria-label="Explore" />
-                    </a></Link>
-
-                    {/* Message */}
-                    <Link passHref href="/app/messages"><a>
-                        <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/messages") ? <MessageIconActive height="2rem" width="2rem" /> : <MessageIcon height="2rem" width="2rem" />} aria-label="Messages" />
-                    </a></Link>
-
-                </Box>
-
-                {/* Navbar will show a single progress bar, made of crossfading single color progression */}
-                <AppBarSmallScreenProgress />
+                {/* Message */}
+                <Link passHref href="/app/messages"><a>
+                    <IconButton display="flex" justifyContent="center" alignItems="center" variant="unstyled" icon={router.pathname.includes("/app/messages") ? <MessageIconActive height="2rem" width="2rem" /> : <MessageIcon height="2rem" width="2rem" />} aria-label="Messages" />
+                </a></Link>
 
             </Box>
-        </>
+
+            {/* Navbar will show a single progress bar, made of crossfading single color progression */}
+            <AppBarSmallScreenProgress />
+
+        </Box>
     )
-}
+})
 
 export const AppBarSmallScreen = React.memo(AppBarSmallScreenUnmemo, ((prevProps, nextProps) => (prevProps.contextualComponentProps === nextProps.contextualComponentProps)));
