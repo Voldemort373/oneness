@@ -25,12 +25,14 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-redux": "^8.0.0",
-    "react-toastify": "^8.2.0"
+    "react-toastify": "^8.2.0",
+    "vivus": "^0.4.6"
   },
   "devDependencies": {
     "@types/node": "17.0.25",
     "@types/react": "18.0.5",
     "@types/react-dom": "18.0.1",
+    "@types/vivus": "^0.4.4",
     "@web3-react/types": "^6.0.7",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",

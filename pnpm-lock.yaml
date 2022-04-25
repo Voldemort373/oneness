@@ -9,6 +9,7 @@ specifiers:
   '@types/node': 17.0.25
   '@types/react': 18.0.5
   '@types/react-dom': 18.0.1
+  '@types/vivus': ^0.4.4
   '@web3-react/core': '6'
   '@web3-react/injected-connector': '6'
   '@web3-react/types': ^6.0.7
@@ -25,6 +26,7 @@ specifiers:
   react-redux: ^8.0.0
   react-toastify: ^8.2.0
   typescript: 4.6.3
+  vivus: ^0.4.6
 
 dependencies:
   '@chakra-ui/react': 1.8.8_7bb580565eb9baceb4ad26fbb776bae0
@@ -44,11 +46,13 @@ dependencies:
   react-dom: 18.0.0_react@18.0.0
   react-redux: 8.0.0_4ba69c7787dfd9a3579e23e97d93e7b4
   react-toastify: 8.2.0_react-dom@18.0.0+react@18.0.0
+  vivus: 0.4.6
 
 devDependencies:
   '@types/node': 17.0.25
   '@types/react': 18.0.5
   '@types/react-dom': 18.0.1
+  '@types/vivus': 0.4.4
   '@web3-react/types': 6.0.7
   eslint: 8.13.0
   eslint-config-next: 12.1.5_73f9dd19bec33b69290ec95d96fcfe5a
@@ -2287,6 +2291,10 @@ packages:
   /@types/use-sync-external-store/0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: false
+
+  /@types/vivus/0.4.4:
+    resolution: {integrity: sha512-eE7dV8JjjkLpTvZKQomknJssib0A1kCkC7fG1NMVSp/4Am/gjNsn9o0XtZXNmXJYHVddHbHL/M0OJIVhoVioeA==}
+    dev: true
 
   /@types/warning/3.0.0:
     resolution: {integrity: sha1-DSUBJorY+ZYrdA04fEZU9fjiPlI=}
@@ -5768,6 +5776,10 @@ packages:
 
   /varint/6.0.0:
     resolution: {integrity: sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==}
+    dev: false
+
+  /vivus/0.4.6:
+    resolution: {integrity: sha512-q6cDPTGqw/bq9sKF2h2T6GJ9PlwAFncHq7MdaK95WTSyd/7gz//UHTZbJ3B+r8f7AhcISPTC3sv9+u65BmmFbw==}
     dev: false
 
   /warning/4.0.3:

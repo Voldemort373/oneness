@@ -10,6 +10,7 @@ import ConnectDialog from '../components/organisms/connectDialog';
 import { getValueBasedOnEnv } from '../utils/env';
 import { ToastContainer } from 'react-toastify';
 import "../styles/toast.css";
+import ContentContainer from '../components/atoms/contentContainer';
 
 /**
  * @summary Used by Web3-React's provider to initialise its provider
@@ -35,7 +36,9 @@ function OnenessApp({ Component, pageProps }: AppProps) {
           <ChakraProvider theme={theme}>
 
             {/* Page component */}
-            <Component {...pageProps} />
+            <ContentContainer>
+              <Component {...pageProps} />
+            </ContentContainer>
 
             {/* Connect dialog - needs to be rendered only once */}
             <ConnectDialog />
