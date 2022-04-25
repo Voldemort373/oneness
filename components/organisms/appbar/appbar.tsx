@@ -10,19 +10,21 @@ interface AppBar {
     ContextualComponent?: FunctionComponent;
     contextualComponentProps?: { [propName: string]: any };
     shouldShowOnWideScreens?: boolean;
-    shouldShowOnSmallScreens?: boolean;
+    shouldShowTopBarOnSmallScreens?: boolean;
+    shouldShowBottomBarOnSmallScreens?: boolean;
 }
 
 /**
  * @summary AppBar component for use in all pages, **INDIVIDUALLY**.
  * @dev Use in each page that you need AppBars, and pass appropriate props for versatility.
- * @param shouldShowOnSmallScreens If navbar should show up on smaller screens; *default: `true`*.
+ * @param shouldShowTopBarOnSmallScreens If top navbar should show up on smaller screens; *default: `true`*.
+ * * @param shouldShowBottomBarOnSmallScreens If bottom navbar should show up on smaller screens; *default: `true`*.
  * @param shouldShowOnWideScreens If navbar should show up on wider screens; *default: `true`*.
  * @param ContextualComponent Contextual component to show for the page *(OPTIONAL)*
  * @param contextualComponentProps Props for the Contextual component *(OPTIONAL)*
  * @returns AppBar component with everything working on its own
  */
-export default function AppBar({ shouldShowOnSmallScreens = true, shouldShowOnWideScreens = true, ContextualComponent, contextualComponentProps }: AppBar) {
+export default function AppBar({ shouldShowTopBarOnSmallScreens = true, shouldShowBottomBarOnSmallScreens = true, shouldShowOnWideScreens = true, ContextualComponent, contextualComponentProps }: AppBar) {
 
     /**
      * @dev This state is needed to decide when to render the AppBar, since we use 'Show' component
@@ -42,9 +44,9 @@ export default function AppBar({ shouldShowOnSmallScreens = true, shouldShowOnWi
             }
 
             {/* For smaller screens, md and below */}
-            {shouldShowOnSmallScreens &&
+            {(shouldShowTopBarOnSmallScreens || shouldShowBottomBarOnSmallScreens) &&
                 <Hide above="md">
-                    <AppBarSmallScreen ContextualComponent={ContextualComponent} contextualComponentProps={contextualComponentProps} />
+                    <AppBarSmallScreen ContextualComponent={ContextualComponent} contextualComponentProps={contextualComponentProps} shouldShowTopBarOnSmallScreens={shouldShowTopBarOnSmallScreens} shouldShowBottomBarOnSmallScreens={shouldShowBottomBarOnSmallScreens} />
                 </Hide>
             }
         </>

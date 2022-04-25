@@ -29,9 +29,11 @@ import { useRouter } from "next/router";
 interface AppBarSmallScreen {
     ContextualComponent?: FunctionComponent;
     contextualComponentProps?: { [propName: string]: any };
+    shouldShowTopBarOnSmallScreens: boolean;
+    shouldShowBottomBarOnSmallScreens: boolean;
 }
 
-const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps }: AppBarSmallScreen) => {
+const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps, shouldShowBottomBarOnSmallScreens, shouldShowTopBarOnSmallScreens }: AppBarSmallScreen) => {
 
     /**
      * @dev States and effects are placed in a separate, local-only hook
@@ -41,22 +43,26 @@ const AppBarSmallScreenUnmemo = ({ ContextualComponent, contextualComponentProps
     return (
         <>
             {/* Top navbar */}
-            <Box id="navbar-widescreen-container-sm-top" width="full" position="fixed" top="0" left="0" zIndex="999" display="flex" alignItems="center" paddingY="2" paddingX="4" backgroundColor={navbarBackground} as="nav">
+            {shouldShowTopBarOnSmallScreens &&
+                <Box id="navbar-widescreen-container-sm-top" width="full" position="fixed" top="0" left="0" zIndex="999" display="flex" alignItems="center" paddingY="2" paddingX="4" backgroundColor={navbarBackground} as="nav">
 
-                {/* AppTitle */}
-                <AppBarSmallScreenTopAppLogo />
+                    {/* AppTitle */}
+                    <AppBarSmallScreenTopAppLogo />
 
-                {/* Contextual element */}
-                <Box flexBasis={0} flexGrow={1} height="full" paddingX="4">
-                    {!!ContextualComponent && <ContextualComponent {...contextualComponentProps} />}
+                    {/* Contextual element */}
+                    <Box flexBasis={0} flexGrow={1} height="full" paddingX="4">
+                        {!!ContextualComponent && <ContextualComponent {...contextualComponentProps} />}
+                    </Box>
+
+                    {/* Menu */}
+                    <AppBarSmallScreenTopMenu />
                 </Box>
-
-                {/* Menu */}
-                <AppBarSmallScreenTopMenu />
-            </Box>
+            }
 
             {/* Bottom navbar */}
-            <AppBarSmallScreenBottomNavbar />
+            {shouldShowBottomBarOnSmallScreens &&
+                <AppBarSmallScreenBottomNavbar />
+            }
         </>
     )
 }
