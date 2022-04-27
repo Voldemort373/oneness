@@ -1,13 +1,9 @@
 import { NextPage } from "next";
-import AppBar from "../../components/organisms/appbar";
+import Posts from "../../components/pages/app/posts";
 
 const PostsPage: NextPage = () => {
-
     return (
-        <>
-            <AppBar />
-            POSTS PAGE (in progress)
-        </>
+        <Posts />
     )
 }
 
