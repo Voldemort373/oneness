@@ -1,11 +1,13 @@
 import { Box, Button, Heading, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
+import useConnection from "../../../hooks/useConnection";
 import BalancedStones from "../../organisms/balancedStones/balancedStones";
 
 
 export default function HomeContainer1() {
 
-    const headingShadow = useColorModeValue("unset", "4px 0px 8px #1a1a1a80")
+    const headingShadow = useColorModeValue("unset", "4px 0px 8px #1a1a1a80");
+    const { isConnected, showConnectDialog, isConnecting } = useConnection();
 
     return (
         <Box as="section" display="flex" justifyContent="center" alignItems="center" height="full" flexDirection="column">
@@ -25,10 +27,16 @@ export default function HomeContainer1() {
                     <Button size="lg">Read more</Button>
                 </a></Link>
 
-                {/* App */}
-                <Link passHref href="/app/posts"><a>
-                    <Button colorScheme="blue" size="lg">App</Button>
-                </a></Link>
+                {/* Connect / App */}
+                {isConnected ?
+                    <Link passHref href="/app/posts"><a>
+                        <Button colorScheme="blue" size="lg">App</Button>
+                    </a></Link> :
+
+                    <Button colorScheme="blue" size="lg" isLoading={isConnecting} loadingText="Connecting" onClick={showConnectDialog}>Connect</Button>
+                }
+
+
             </Box>
 
         </Box>
