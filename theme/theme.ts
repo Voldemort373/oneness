@@ -1,4 +1,4 @@
-import { extendTheme, Theme, withDefaultColorScheme } from "@chakra-ui/react";
+import { extendTheme, Theme } from "@chakra-ui/react";
 import blueHue from "./colors/blue";
 import greenHue from "./colors/green";
 import redHue from "./colors/red";
@@ -25,8 +25,7 @@ const theme = extendTheme(
             initialColorMode: "light",
             useSystemColorMode: false
         }
-    },
-    withDefaultColorScheme({ colorScheme: "green" })
+    }
 ) as Theme;
 
 export default theme;

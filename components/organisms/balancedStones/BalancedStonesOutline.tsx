@@ -6,7 +6,7 @@ const BalancedStonesOutline = forwardRef((props: SVGProps<SVGSVGElement>, ref: L
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"
-    height="auto"
+    height="100%"
     viewBox="0 0 264.583 145.521"
     {...props}
     ref={ref}
